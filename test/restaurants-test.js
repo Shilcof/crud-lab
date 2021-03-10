@@ -4,7 +4,7 @@ import { configure, shallow, mount } from 'enzyme';
 import RestaurantInput from '../src/components/restaurants/RestaurantInput'
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import manageRestaurant, { cuidFn } from '../src/reducers/manageRestaurant'
+import rootReducer, { cuidFn } from '../src/reducers/rootReducer'
 import App from '../src/App'
 import Restaurant from '../src/components/restaurants/Restaurant'
 import Adapter from 'enzyme-adapter-react-16'
@@ -31,7 +31,7 @@ describe('RestaurantInput', () => {
   });
 
   it('updates the state of the store after submitting the form', () => {
-    const store = createStore(manageRestaurant);
+    const store = createStore(rootReducer);
     const wrapper = mount(<Provider store={store}><App /></Provider>);
 
     let form = wrapper.find('form');
@@ -49,7 +49,7 @@ describe('RestaurantInput', () => {
 describe('Restaurants Component', () => {
   it('displays a list of restaurant components', () => {
 
-    const store = createStore(manageRestaurant)
+    const store = createStore(rootReducer)
     store.dispatch({type: 'ADD_RESTAURANT', text: "Muzarella"})
     store.dispatch({type: 'ADD_RESTAURANT', text: "Artichoke"})
     store.dispatch({type: 'ADD_RESTAURANT', text: "Two Brothers"})
@@ -74,7 +74,7 @@ describe('Restaurant Component', () => {
 
 describe('RestaurantInput Component with Redux', () => {
   it('has an unique id property for each element', () => {
-    const store = createStore(manageRestaurant)
+    const store = createStore(rootReducer)
     const wrapper = mount(<Provider store={store}><App /></Provider>)
     let form = wrapper.find('form')
     let input = wrapper.find('input').first()
@@ -96,7 +96,7 @@ describe('RestaurantInput Component with Redux', () => {
 
 describe('Restaurant Component with Redux', () => {
   it('has the restaurant as a prop', () => {
-    const store = createStore(manageRestaurant);
+    const store = createStore(rootReducer);
 
     const wrapper = mount(<Provider store={store}><App /></Provider>)
 
@@ -115,7 +115,7 @@ describe('Restaurant Component with Redux', () => {
 
 
   it('has a button that dispatches a DELETE_RESTAURANT action with the proper id when clicked', ()=> {
-    const store = createStore(manageRestaurant);
+    const store = createStore(rootReducer);
     store.dispatch({type: 'ADD_RESTAURANT', text: 'Bagel World'})
 
     const wrapper = mount(<Provider store={store}><App /></Provider>)
@@ -130,7 +130,7 @@ describe('Restaurant Component with Redux', () => {
   });
 
   it('updates the state of the store to remove the component', () => {
-    const store = createStore(manageRestaurant);
+    const store = createStore(rootReducer);
     const wrapper = mount(<Provider store={store}><App /></Provider>)
 
     let form = wrapper.find('form');
